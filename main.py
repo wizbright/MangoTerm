@@ -1,6 +1,7 @@
 import os
 import render 
 import sys
+import curses
 
 manga_dir = os.path.abspath(sys.argv[1])
 pics = sorted(os.listdir(manga_dir))
@@ -13,6 +14,10 @@ draw = True
 r.draw_image(manga_dir + '/' +  pics[pos])
 while(x != 113):
     x = r.scr.getch()
+    if (x == curses.KEY_RESIZE):
+        r.scr.refresh()
+        r.update()
+        r.draw_image(manga_dir + '/' +  pics[pos])
     if (x == 260):
       if (pos > 0):
          pos-=1 
