@@ -9,9 +9,13 @@ import os
 import w3m
 import util
 import ast
+from subprocess import Popen, PIPE
 
 SEARCHBAR_OFFSET = 2
 SEARCHLEFT_OFFSET = 8
+W3MIMGDISPLAY_PATH = '/usr/lib/w3m/w3mimgdisplay'
+W3MIMGDISPLAY_OPTIONS = []
+
 
 class Renderer(object):
     def __init__(self, w3m_binary='/usr/lib/w3m/w3mimgdisplay'):
@@ -25,6 +29,9 @@ class Renderer(object):
         self.results = None
         self.first_pic = True
         self.w3m_enabled = False
+        self.process = Popen([w3m_binary] + W3MIMGDISPLAY_OPTIONS,
+          stdin=PIPE, stdout=PIPE, universal_newlines=True)
+
 
         if os.path.exists(w3m_binary):
           self.w3m = w3m.W3MImage_display(w3m_binary)
@@ -101,10 +108,22 @@ class Renderer(object):
         y_m = (bh - ih) / 2
 
         # Get x, y coordinates
-        x = x * fw + x_m
+        #x = x * fw + x_m
+        x = x * fw - iw/2
         y = y * fh + y_m
         #self.w3m.clear(x, y, w=iw, h=ih)
-        self.w3m.clear(x, y, iw, ih)
+        #self.w3m.clear(x, y, iw, ih)
+        cmd = "6;{x1};{y1};{w1};{h1}\n4;\n3;\n".format(
+            x1 = x,
+            y1 = y,
+            w1 = iw,
+            h1 = ih)
+        self.process.stdin.write(cmd)
+        self.process.stdin.flush()
+        self.process.stdout.readline()
+        print("cleared")
+
+
 
     def draw_image(self, image):
           if (self.w3m_enabled):
@@ -118,10 +137,27 @@ class Renderer(object):
                 pass
         #self.results.noutrefresh(0, 0, SEARCHBAR_OFFSET, 0, curses.LINES-1, curses.COLS-1)
 
+    def clear_image(self):
+          if (self.w3m_enabled):
+            try:
+                self.scr.clear()
+                # Create result box delimiter
+                for i in range(curses.COLS - 1):
+                    self.scr.insch(1, i, curses.ACS_HLINE)
+                self.scr.refresh()
+            except Exception as e:
+                # Who cares? it's just a picture.
+                self.end()
+                print(str(e))
+                pass
+        #self.results.noutrefresh(0, 0, SEARCHBAR_OFFSET, 0, curses.LINES-1, curses.COLS-1)
+
     # View for user to select a package from a list of options
 
     def end(self):
+        self.clear_image()
         self._clear_image(self.current_image,curses.COLS - curses.COLS/2, SEARCHBAR_OFFSET, curses.COLS/2, curses.LINES - SEARCHBAR_OFFSET)
+        self.process.kill()
         self.scr.clear()
         curses.nocbreak()
         self.scr.keypad(False)
