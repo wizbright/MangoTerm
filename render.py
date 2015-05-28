@@ -21,7 +21,7 @@ class Renderer(object):
         curses.cbreak()         # no key buffering
         self.scr.keypad(True) # let curses handle keys
         self.scr.clear()
-        
+        curses.curs_set(0) 
         self.results = None
         self.first_pic = True
         self.w3m_enabled = False
@@ -29,9 +29,6 @@ class Renderer(object):
         if os.path.exists(w3m_binary):
           self.w3m = w3m.W3MImage_display(w3m_binary)
           self.w3m_enabled = True
-          print("w3m is there")
-        else:
-          print("w3m not present")
          
         # Create a search box
 
@@ -60,7 +57,6 @@ class Renderer(object):
         # Image dimensions
         iw, ih = util.get_image_dimensions(temp_file)
         # Box dimensions
-        print("Got thorugh util")
         bw, bh = w * fw, h *fh
         
         # Scale the image to the box
@@ -88,7 +84,6 @@ class Renderer(object):
         # Image dimensions
         iw, ih = util.get_image_dimensions(temp_file)
         # Box dimensions
-        print("Got thorugh util")
         bw, bh = w * fw, h *fh
         
         # Scale the image to the box
@@ -111,7 +106,6 @@ class Renderer(object):
 
     def draw_image(self, image):
           if (self.w3m_enabled):
-            print("enabled")
             try:
                 self._draw_image(image, curses.COLS - curses.COLS/2, SEARCHBAR_OFFSET, curses.COLS/2, curses.LINES - SEARCHBAR_OFFSET)
                 self.current_image = image
