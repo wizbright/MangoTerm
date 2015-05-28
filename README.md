@@ -1,20 +1,12 @@
-# MangoTerm
+## MangoTerm ##
 
-Dependencies
--ncurses
--w3m(image libraries)
+**Dependencies**
 
-Features
--Able to browse and open files via commandline
--Be able to track what is new to a directory
- and flag it as new.
--Use state files as a way to track newly 
- added things.
- -Check top level then recursively in each 
-  sub-directory
+ - ncurses
+ - w3m
 
+**Features** 
 
-StateFile
--Stores everything
--Updates when changing directories
--SQLite
+ - Able to browse and open archives with a terminal 
+
+ - Able to track what was newly added to a directory and mark it differently from the others.
