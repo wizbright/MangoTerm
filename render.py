@@ -69,10 +69,12 @@ class Renderer(object):
 
         # Get margin
         x_m = (bw - iw) / 2
+        #x_m = 0
         y_m = (bh - ih) / 2
+        #y_m = 0
 
         # Get x, y coordinates
-        x = x * fw + x_m
+        x = x * fw - iw/2
         y = y * fh + y_m
         #self.w3m.clear(x, y, w=iw, h=ih)
         self.w3m.draw(temp_file, 1, x, y, w=iw, h=ih)
