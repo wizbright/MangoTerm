@@ -7,6 +7,4 @@
 
 **Features** 
 
- - Able to browse and open archives with a terminal 
-
- - Able to track what was newly added to a directory and mark it differently from the others.
+ - Redraws and opens basic archive types at the moment, like ZIP and TAR files. More will be added soon.
