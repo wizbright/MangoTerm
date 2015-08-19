@@ -6,10 +6,10 @@ __pycache__/
 *.so
 
 # Archives
-.zip
-.rar
-.tar
-.cbr
+*.zip
+*.rar
+*.tar
+*.cbr
 
 # Distribution / packaging
 .Python
