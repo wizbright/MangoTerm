@@ -4,6 +4,7 @@
 
  - ncurses
  - w3m
+ - rarfile (From the PyPi)
 
 **Features** 
 
