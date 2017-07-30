@@ -1,43 +1,36 @@
 import os
-import render
+import render 
 import sys
 import curses
-import shutil
-import tempfile
 
-#Opening the zip file
-#shutil.register_archive_format(".rar")
-#shutil.register_unpack_format(RAR, .rar, function)
-tempdir = tempfile.mkdtemp()
-shutil.unpack_archive(sys.argv[1], tempdir)
-
-pics = sorted(os.listdir(tempdir))
+manga_dir = os.path.abspath(sys.argv[1])
+pics = sorted(os.listdir(manga_dir))
 pos = 0
 r = render.Renderer()
 #r.draw_image(dp)
 x = 0
 draw = True
 
-r.draw_image(tempdir + '/' +  pics[pos]) # Draws first image
-while(x != 113): # As long as q is not pressed
+r.draw_image(manga_dir + '/' +  pics[pos])
+while(x != 113):
     x = r.scr.getch()
-    if (x == curses.KEY_RESIZE): # Allows the image to resize and redraws
+    if (x == curses.KEY_RESIZE):
         r.scr.refresh()
         r.update()
-        r.draw_image(tempdir + '/' +  pics[pos])
-    if (x == 260): # Pressing left arrow key goes to the previous image
+        r.draw_image(manga_dir + '/' +  pics[pos])
+    if (x == 260):
       if (pos > 0):
-         pos-=1
+         pos-=1 
          r.clear_image()
-         r.draw_image(tempdir + '/' +  pics[pos])
-    if (x == 261): # Pressing right arrow key advances the image forward
+         r.draw_image(manga_dir + '/' +  pics[pos])
+    if (x == 261):
       if (pos < len(pics) - 1):
         pos+=1
         r.clear_image()
-        r.draw_image(tempdir + '/' +  pics[pos])
-    if(x == 99): # Pressing c clears the image
+        r.draw_image(manga_dir + '/' +  pics[pos])
+    if(x == 99):
       r.clear_image()
-    if (x == 100): # Pressing d redraws the image
-      r.draw_image(tempdir + '/' +  pics[pos])
+    if (x == 100):
+      r.draw_image(manga_dir + '/' +  pics[pos])
 r.w3m.terminate()
 r.end()
