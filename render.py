@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # render.py
 #
 # Defines the Render class.
@@ -27,13 +26,13 @@ class Renderer(object):
         p = Popen(["tput lines"], stdout=PIPE,shell=True)
         out = p.communicate()
         self.LINES = int(re.search('[0-9]+',str(out)).group(0))
-        self.current_image = None
+        self.current_image = None 
         self.scr = curses.initscr()
         curses.noecho()         # don't echo characters
         curses.cbreak()         # no key buffering
         self.scr.keypad(True) # let curses handle keys
         self.scr.clear()
-        curses.curs_set(0)
+        curses.curs_set(0) 
         self.results = None
         self.first_pic = True
         self.w3m_enabled = False
@@ -42,11 +41,11 @@ class Renderer(object):
         if os.path.exists(w3m_binary):
           self.w3m = w3m.W3MImage_display(w3m_binary)
           self.w3m_enabled = True
-
-        #Create result box delimiter
-        #for i in range(self.COLS - 1):
-        #    self.scr.insch(1, i, curses.ACS_HLINE)
-        #    self.scr.refresh()
+         
+        # Create result box delimiter
+       # for i in range(self.COLS - 1):
+       #   self.scr.insch(1, i, curses.ACS_HLINE)
+        self.scr.refresh()
 
         # Set selection index to search
         self.index = -1
@@ -58,7 +57,7 @@ class Renderer(object):
         p = Popen(["tput lines"], stdout=PIPE,shell=True)
         out = p.communicate()
         self.LINES = int(re.search('[0-9]+',str(out)).group(0))
-
+        
     def handle_scroll(self):
         k = self.scr.getkey()
         self.end()
@@ -77,7 +76,7 @@ class Renderer(object):
         iw, ih = util.get_image_dimensions(temp_file)
         # Box dimensions
         bw, bh = w * fw, h *fh
-
+        
         # Scale the image to the box
         if iw > ih:
           scale = 1.0 * bw / iw
@@ -106,7 +105,7 @@ class Renderer(object):
         iw, ih = util.get_image_dimensions(temp_file)
         # Box dimensions
         bw, bh = w * fw, h *fh
-
+        
         # Scale the image to the box
         if iw > ih:
           scale = 1.0 * bw / iw
@@ -173,3 +172,4 @@ class Renderer(object):
         self.scr.keypad(False)
         curses.echo()
         curses.endwin()
+

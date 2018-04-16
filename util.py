@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # util.py
 #
 # Defines a various utility variables, functions and classes.
